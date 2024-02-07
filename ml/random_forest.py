@@ -15,3 +15,6 @@ class RandomForest:
         self.selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
         self.routerDF = self.routerDF[self.selected_columns]
 
+    def print_routerDF(self):   # Method to display dataframe
+        print(self.routerDF)
+
