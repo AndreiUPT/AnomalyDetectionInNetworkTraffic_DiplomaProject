@@ -9,8 +9,9 @@ import struct
 import pandas as pd
 
 class RandomForest:
-    # Loading the dataset into a dataframe and selecting the important columns
-    routerDF = pd.read_csv('Prototip5200.csv')
-    selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
-    routerDF = routerDF[selected_columns]
+    def __init__(self):
+        # Loading the dataset into a dataframe and selecting the important columns
+        self.routerDF = pd.read_csv('Prototip5200.csv')
+        self.selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
+        self.routerDF = self.routerDF[self.selected_columns]
 
