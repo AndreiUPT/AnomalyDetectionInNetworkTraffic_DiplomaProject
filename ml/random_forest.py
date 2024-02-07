@@ -11,7 +11,7 @@ import pandas as pd
 class RandomForest:
     def __init__(self):
         # Loading the dataset into a dataframe and selecting the important columns
-        self.routerDF = pd.read_csv('Prototip5200.csv')
+        self.routerDF = pd.read_csv('/Users/andrei-r.ionescu/Desktop/MLLICENTA/PyCharmEnvironment/AnomalyDetectionInNetworkTraffic/ml/Prototip5200.csv')
         self.selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
         self.routerDF = self.routerDF[self.selected_columns]
 
