@@ -8,3 +8,9 @@ import socket
 import struct
 import pandas as pd
 
+class RandomForest:
+    # Loading the dataset into a dataframe and selecting the important columns
+    routerDF = pd.read_csv('Prototip5200.csv')
+    selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
+    routerDF = routerDF[selected_columns]
+
