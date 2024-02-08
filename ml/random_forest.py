@@ -18,3 +18,12 @@ class RandomForest:
     def print_routerDF(self):   # Method to display dataframe
         print(self.routerDF)
 
+    def training(self):   # Methos for training, testing and evaluating the Random Forest
+        # encoding
+        label_encoders = {}
+        for column in ['Source', 'Destination', 'Protocol', 'Info', 'cat']:
+            encoder = LabelEncoder()
+            routerDF[column] = encoder.fit_transform(routerDF[column])
+            label_encoders[column] = encoder
+
+
