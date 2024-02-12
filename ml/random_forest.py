@@ -23,12 +23,14 @@ class RandomForest:
         label_encoders = {}
         for column in ['Source', 'Destination', 'Protocol', 'Info', 'cat']:
             encoder = LabelEncoder()
-            routerDF[column] = encoder.fit_transform(routerDF[column])
+            self.routerDF[column] = encoder.fit_transform(self.routerDF[column])
             label_encoders[column] = encoder
 
         # drop the 'No' column
-        routerDF.drop(columns=['No'], errors='ignore', inplace=True)
+        self.routerDF.drop(columns=['No'], errors='ignore', inplace=True)
 
         # drop the 'Time' column
-        routerDF.drop(columns=['Time'], errors='ignore', inplace=True)
+        self.routerDF.drop(columns=['Time'], errors='ignore', inplace=True)
+
+
 
