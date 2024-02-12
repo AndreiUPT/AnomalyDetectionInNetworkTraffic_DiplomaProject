@@ -40,3 +40,14 @@ class RandomForest:
         random_forest = RandomForestClassifier(n_estimators=100, random_state=42)
         random_forest.fit(X_train, y_train)
 
+        # Predictions & evaluation
+        y_pred = random_forest.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        conf_matrix = confusion_matrix(y_test, y_pred)
+        class_report = classification_report(y_test, y_pred)
+
+        print("Classification Report:\n", class_report)
+        print("Accuracy:", accuracy * 100, "%")
+        print("\nConfusion Matrix:\n", conf_matrix)
+
+
