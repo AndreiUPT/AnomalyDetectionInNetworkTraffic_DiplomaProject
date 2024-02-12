@@ -26,4 +26,9 @@ class RandomForest:
             routerDF[column] = encoder.fit_transform(routerDF[column])
             label_encoders[column] = encoder
 
+        # drop the 'No' column
+        routerDF.drop(columns=['No'], errors='ignore', inplace=True)
+
+        # drop the 'Time' column
+        routerDF.drop(columns=['Time'], errors='ignore', inplace=True)
 
