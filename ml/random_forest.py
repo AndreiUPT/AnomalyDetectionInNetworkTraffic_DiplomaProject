@@ -32,5 +32,11 @@ class RandomForest:
         # drop the 'Time' column
         self.routerDF.drop(columns=['Time'], errors='ignore', inplace=True)
 
+        # Training Random Forest
+        X = self.routerDF.drop(columns=['cat'])
+        y = self.routerDF['cat']
 
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        random_forest = RandomForestClassifier(n_estimators=100, random_state=42)
+        random_forest.fit(X_train, y_train)
 
