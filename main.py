@@ -8,7 +8,14 @@ random_forest_instance = RandomForest();
 
 @flask_application.route("/")
 def index():
-    return render_template("index.html")
+    # Call the training method to compute metrics
+    accuracy, conf_matrix, class_report = random_forest_instance.training()
+
+    # Render an HTML template
+    return render_template("index.html", accuracy=accuracy,
+                           conf_matrix=conf_matrix,
+                           class_report=class_report)
+
 
 if __name__ == "__main__":
     flask_application.run(debug=True)
