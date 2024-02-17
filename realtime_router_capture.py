@@ -24,3 +24,6 @@ for i, packet in enumerate(capture.sniff_continuously()):
     except AttributeError:
         pass  # skip if the packet's information is not relevant
 
+    print(packet)
+
+capture.close()
