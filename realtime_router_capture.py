@@ -3,6 +3,9 @@
 import pyshark
 import csv
 
+class PacketsCapture:
+
+
 # the interface for Wi-Fi capture
 wifi_interface = "en0"
 
