@@ -5,45 +5,46 @@ import csv
 
 class PacketsCapture:
 
-    def __init__(self, wifi_interface):
-        self.wifi_interface = wifi_interface
+    def __init__(self, wifi_interface, output_file, csv_file, capture, end_capture):
+        self.interface = wifi_interface
         self.output_file = output_file
         self.csv_file = csv_file
-        self.capture = capture
+        self.capture = None
         self.end_capture = False
 
 
-# the interface for Wi-Fi capture
- = "en0"
+    def start_capture(self):     # method for packets capturing
+        # packets saved in a .pcap file (Live capture)
+        self.capture = pyshark.LiveCapture(interface=self.interface, output_file=self.output_file)
 
-# packets saved in a .pcap file (Live capture)
-capture = pyshark.LiveCapture(interface=wifi_interface, output_file="captured_packets.pcap")
+    def stop_capture(self):     # method to stop the capture
+        # boolean variable for ending the live capture
+        self.end_capture = True  # stop -> end_capture's value True
 
-# boolean variable for ending the live capture
-end_capture = False
+    def create_csv(self):        # method to created a csv file in which the capture will be stored
+        # creating a csv file for writing
+        self.csv_file = "captured_packets.csv"
 
-# creating a csv file for writing
-csv_file = "captured_packets.csv"
+        with open(self.csv_file, 'w', newline='') as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerow(['No.', 'Time', 'Source', 'Destination', 'Protocol', 'Length'])  # the first row will be populated with columns headers
 
-with open(csv_file, 'w', newline='') as csvfile:
-    csvwriter = csv.writer(csvfile)
-    csvwriter.writerow(['No.', 'Time', 'Source', 'Destination', 'Protocol', 'Length'])  # the first row will be populated with columns headers
+        # create a loop for packets capturing
+        for i, packet in enumerate(self.capture.sniff_continuously()):
+            if self.end_capture:
+                break
+            try:
+                # extracting the relevant info from the packet
+                time = packet.sniff_time.strftime('%Y-%m-%d %H:%M:%S')
+                source = packet.ip.src
+                destination = packet.ip.dst
+                protocol = packet.transport_layer
+                length = packet.length
+                csvwriter.writerow([i + 1, time, source, destination, protocol, length])  # write packet details into the csv file starting with the second row
+            except AttributeError:
+                pass  # skip if the packet's information is not relevant
 
-    # create a loop for packets capturing
-    for i, packet in enumerate(capture.sniff_continuously()):
-        if end_capture:
-            break
-        try:
-            # extracting the relevant info from the packet
-            time = packet.sniff_time.strftime('%Y-%m-%d %H:%M:%S')
-            source = packet.ip.src
-            destination = packet.ip.dst
-            protocol = packet.transport_layer
-            length = packet.length
-            csvwriter.writerow([i + 1, time, source, destination, protocol, length])  # write packet details into the csv file starting with the second row
-        except AttributeError:
-            pass  # skip if the packet's information is not relevant
+            print(packet)
 
-        print(packet)
-
-capture.close()
+    def close_capture(self):      # method to stop the capture
+        self.capture.close()
