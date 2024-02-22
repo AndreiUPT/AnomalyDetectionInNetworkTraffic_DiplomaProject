@@ -5,9 +5,16 @@ import csv
 
 class PacketsCapture:
 
+    def __init__(self, wifi_interface):
+        self.wifi_interface = wifi_interface
+        self.output_file = output_file
+        self.csv_file = csv_file
+        self.capture = capture
+        self.end_capture = False
+
 
 # the interface for Wi-Fi capture
-wifi_interface = "en0"
+ = "en0"
 
 # packets saved in a .pcap file (Live capture)
 capture = pyshark.LiveCapture(interface=wifi_interface, output_file="captured_packets.pcap")
