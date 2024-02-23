@@ -22,6 +22,10 @@ def index():
     # Call the training method to compute metrics
     accuracy, conf_matrix, class_report = random_forest_instance.training()
 
+    # start the packets capturing thread if not already running
+    if not packetsCapturing_thread.is_alive():
+        packetsCapturing_thread.start()
+
     # Render an HTML template
     return render_template("index.html", accuracy=accuracy,
                            conf_matrix=conf_matrix,
