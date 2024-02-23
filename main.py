@@ -8,6 +8,12 @@ flask_application = Flask(__name__)
 # Instantiate Random Forest
 random_forest_instance = RandomForest();
 
+# Instantiate capturing
+wifi_interface = "en0"
+output_file = "captured_packets.pcap"
+csv_file = "captured_packets.csv"
+capture_instance = PacketsCapture(wifi_interface, output_file, csv_file, None, False)
+
 @flask_application.route("/")
 def index():
     # Call the training method to compute metrics
