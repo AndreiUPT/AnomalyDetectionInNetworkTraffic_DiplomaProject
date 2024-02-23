@@ -6,13 +6,16 @@ import threading
 flask_application = Flask(__name__)
 
 # Instantiate Random Forest
-random_forest_instance = RandomForest();
+random_forest_instance = RandomForest()
 
 # Instantiate capturing
 wifi_interface = "en0"
 output_file = "captured_packets.pcap"
 csv_file = "captured_packets.csv"
 capture_instance = PacketsCapture(wifi_interface, output_file, csv_file, None, False)
+
+# thread creation for packets capturing
+packetsCapturing_thread =  threading.Thread(target=capture_instance.create_csv)
 
 @flask_application.route("/")
 def index():
