@@ -5,6 +5,43 @@ import csv
 
 class PacketsCapture:
 
+    def __init__(self, wifi_interface="en0", pcap_output_file="captured_packets.pcap",
+                 csv_output_file="captured_packets.csv"):
+
+        self.wifi_interface = wifi_interface
+        self.pcap_output_file = pcap_output_file
+        self.csv_output_file = csv_output_file
+        self.capture = pyshark.LiveCapture(interface=wifi_interface, output_file=pcap_output_file)
+        self.csv_file = open(csv_output_file, 'w', newline='')
+        self.csv_writer = csv.writer(self.csv_file)
+        self.csv_writer.writerow(['No.', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info'])
+
+    def capture_packets(self):
+        stop_capture = False
+        for i, packet in enumerate(self.capture.sniff_continuously()):
+            if stop_capture:
+                break
+
+            try:
+                time = packet.sniff_time.strftime('%H:%M:%S')
+                source = packet.ip.src
+                destination = packet.ip.dst
+                protocol = packet.transport_layer
+                length = packet.length
+                info = packet.info if hasattr(packet, 'info') else ''
+
+                self.csv_writer.writerow([i + 1, time, source, destination, protocol, length, info])
+            except AttributeError:
+                pass
+
+            print(packet)
+
+    def stop_capture(self):
+        self.capture.close()
+        self.csv_file.close()
+
+
+'''
     def __init__(self, wifi_interface, output_file, csv_file, capture, end_capture):
         self.interface = wifi_interface
         self.output_file = output_file
@@ -16,6 +53,7 @@ class PacketsCapture:
     def start_capture(self):     # method for packets capturing
         # packets saved in a .pcap file (Live capture)
         self.capture = pyshark.LiveCapture(interface=self.interface, output_file=self.output_file)
+        self.capture.sniff_continuously()
 
     def stop_capture(self):     # method to stop the capture
         # boolean variable for ending the live capture
@@ -30,7 +68,7 @@ class PacketsCapture:
             csvwriter.writerow(['No.', 'Time', 'Source', 'Destination', 'Protocol', 'Length'])  # the first row will be populated with columns headers
 
         # create a loop for packets capturing
-        for i, packet in enumerate(self.capture.sniff_continuously()):
+        for i, packet in enumerate(self.capture):
             if self.end_capture:
                 break
             try:
@@ -48,3 +86,4 @@ class PacketsCapture:
 
     def close_capture(self):      # method to stop the capture
         self.capture.close()
+'''
