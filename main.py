@@ -17,7 +17,7 @@ csv_file = "captured_packets.csv"
 capture_instance = PacketsCapture()
 
 # thread creation for packets capturing
-packetsCapturing_thread =  threading.Thread(target=capture_instance.capture_packets())
+packetsCapturing_thread =  threading.Thread(target=capture_instance.capture_packets)
 
 @flask_application.route("/")
 def index():
