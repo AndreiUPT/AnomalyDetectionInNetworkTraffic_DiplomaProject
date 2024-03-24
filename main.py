@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from ml.random_forest import RandomForest
 
 flask_application = Flask(__name__)
@@ -8,13 +8,27 @@ random_forest_instance = RandomForest()
 
 @flask_application.route("/")
 def index():
-    # Call the training method to compute metrics
-    accuracy, conf_matrix, class_report = random_forest_instance.training()
-
     # Render an HTML template
-    return render_template("index.html", accuracy=accuracy,
-                           conf_matrix=conf_matrix,
-                           class_report=class_report)
+    return render_template("index.html")
+
+@flask_application.route("/predict", methods=["POST"])
+def predict():
+    # Get the data submitted by user
+    source = request.form.get("source")
+    destination = request.form.get("destination")
+    protocol = request.form.get("protocol")
+    length = request.form.get("length")
+
+    # Put the packet info in a dictionary
+    packet_data = {
+        "Source": source,
+        "Destination": destination,
+        "Protocol": protocol,
+        "Length": length
+    }
+
+    prediction = random_forest_instance.predict(packet_data)
+    return jsonify(prediction=prediction)
 
 
 if __name__ == "__main__":
