@@ -1,21 +1,24 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, precision_score, recall_score, f1_score
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, precision_score, recall_score, \
+    f1_score
 
 import pandas as pd
+
 
 class RandomForest:
     def __init__(self):
         # Loading the dataset into a dataframe and selecting the important columns
-        self.routerDF = pd.read_csv('/Users/andrei-r.ionescu/Desktop/MLLICENTA/PyCharmEnvironment/AnomalyDetectionInNetworkTraffic/ml/Prototip5200.csv')
+        self.routerDF = pd.read_csv(
+            '/Users/andrei-r.ionescu/Desktop/MLLICENTA/PyCharmEnvironment/AnomalyDetectionInNetworkTraffic/ml/Prototip5200.csv')
         self.selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
         self.routerDF = self.routerDF[self.selected_columns]
 
-    def print_routerDF(self):   # Method to display dataframe
+    def print_routerDF(self):  # Method to display dataframe
         print(self.routerDF)
 
-    def training(self):   # Methos for training, testing and evaluating the Random Forest
+    def training(self):  # Methos for training, testing and evaluating the Random Forest
         # encoding
         label_encoders = {}
         for column in ['Source', 'Destination', 'Protocol', 'Info', 'cat']:
@@ -43,13 +46,13 @@ class RandomForest:
         conf_matrix = confusion_matrix(y_test, y_pred)
         class_report = classification_report(y_test, y_pred)
 
-        #print("Classification Report:\n", class_report)
-        #print("Accuracy:", accuracy * 100, "%")
-        #print("\nConfusion Matrix:\n", conf_matrix)
+        # print("Classification Report:\n", class_report)
+        # print("Accuracy:", accuracy * 100, "%")
+        # print("\nConfusion Matrix:\n", conf_matrix)
 
         return accuracy, conf_matrix, class_report
 
-    def preprocess_packet(self, packet_info):   # Method for packet preprocessing
+    def preprocess_packet(self, packet_info):  # Method for packet preprocessing
         # packet info to a DataFrame
         packet_df = pd.DataFrame(packet_info, index=[0])
 
@@ -60,4 +63,15 @@ class RandomForest:
 
         return packet_df
 
+    def predict_packet_category(self, packet_info):   # Method for predicting
+        # preprocessing
+        packet_df = self.preprocess_packet(packet_info)
 
+        # prediction
+        prediction = self.random_forest.predict(packet_df)
+
+        # Normal = Label 1, Anomaly = Label 0
+        if prediction[0] == 1:
+            return "Normal"
+        else:
+            return "Anomaly"
