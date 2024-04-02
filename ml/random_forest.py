@@ -49,4 +49,15 @@ class RandomForest:
 
         return accuracy, conf_matrix, class_report
 
+    def preprocess_packet(self, packet_info):   # Method for packet preprocessing
+        # packet info to a DataFrame
+        packet_df = pd.DataFrame(packet_info, index=[0])
+
+        # label encoding
+        for column, encoder in self.label_encoders.items():
+            if column in packet_df.columns:
+                packet_df[column] = encoder.transform(packet_df[column])
+
+        return packet_df
+
 
