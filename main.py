@@ -27,7 +27,7 @@ def predict():
         "Length": length
     }
 
-    prediction = random_forest_instance.predict(packet_data)
+    prediction = random_forest_instance.predict_packet_category(packet_data)
     return jsonify(prediction=prediction)
 
 
