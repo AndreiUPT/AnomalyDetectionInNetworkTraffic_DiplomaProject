@@ -21,7 +21,7 @@ class RandomForest:
     def training(self):  # Methos for training, testing and evaluating the Random Forest
         # encoding
         label_encoders = {}
-        for column in ['Source', 'Destination', 'Protocol', 'Info', 'cat']:
+        for column in ['Source', 'Destination', 'Protocol', 'cat']:
             encoder = LabelEncoder()
             self.routerDF[column] = encoder.fit_transform(self.routerDF[column])
             label_encoders[column] = encoder
@@ -31,6 +31,9 @@ class RandomForest:
 
         # drop the 'Time' column
         self.routerDF.drop(columns=['Time'], errors='ignore', inplace=True)
+
+        # drop the 'Info' column
+        self.routerDF.drop(columns=['Info'], errors='ignore', inplace=True)
 
         # Training Random Forest
         X = self.routerDF.drop(columns=['cat'])
