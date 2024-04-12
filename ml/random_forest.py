@@ -14,17 +14,16 @@ class RandomForest:
             '/Users/andrei-r.ionescu/Desktop/MLLICENTA/PyCharmEnvironment/AnomalyDetectionInNetworkTraffic/ml/Prototip5200.csv')
         self.selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
         self.routerDF = self.routerDF[self.selected_columns]
-
+        self.label_encoders = {}
     def print_routerDF(self):  # Method to display dataframe
         print(self.routerDF)
 
     def training(self):  # Methos for training, testing and evaluating the Random Forest
         # encoding
-        label_encoders = {}
         for column in ['Source', 'Destination', 'Protocol', 'cat']:
             encoder = LabelEncoder()
             self.routerDF[column] = encoder.fit_transform(self.routerDF[column])
-            label_encoders[column] = encoder
+            self.label_encoders[column] = encoder
 
         # drop the 'No' column
         self.routerDF.drop(columns=['No'], errors='ignore', inplace=True)
@@ -55,7 +54,7 @@ class RandomForest:
 
         return accuracy, conf_matrix, class_report
 
-    def preprocess_packet(self, packet_info):  # Method for packet preprocessing
+    """def preprocess_packet(self, packet_info):  # Method for packet preprocessing
         # packet info to a DataFrame
         packet_df = pd.DataFrame(packet_info, index=[0])
 
@@ -77,4 +76,4 @@ class RandomForest:
         if prediction[0] == 1:
             return "Normal"
         else:
-            return "Anomaly"
+            return "Anomaly" """
