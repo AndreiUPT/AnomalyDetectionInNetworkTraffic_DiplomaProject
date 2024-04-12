@@ -23,18 +23,11 @@ def preprocess_packet(packet_info):
     packet_df = pd.DataFrame(packet_info, index=[0])
 
     # Label encoding for categorical columns
-    for column in ['Source', 'Destination', 'Protocol']:
-        encoder = label_encoders.get(column)
-        if encoder is None:
-            encoder = LabelEncoder()
-            label_encoders[column] = encoder
-        packet_df[column] = encoder.transform(packet_df[column])
-
-    # Drop irrelevant columns
-    packet_df.drop(columns=['No', 'Time', 'Info'], errors='ignore', inplace=True)
+    for column, encoder in label_encoders.items():
+        if column in packet_df.columns:
+            packet_df[column] = encoder.transform(packet_df[column])
 
     return packet_df
-
 
 
 @flask_application.route("/")
