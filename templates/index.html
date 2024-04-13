@@ -10,21 +10,15 @@
 </head>
 <body>
     <h1>Anomaly Detection</h1>
-    <form id="prediction-form">
-        <label for="source">Source:</label>
-        <input type="text" id="source" name="source" required><br>
-
-        <label for="destination">Destination:</label>
-        <input type="text" id="destination" name="destination" required><br>
-
-        <label for="protocol">Protocol:</label>
-        <input type="text" id="protocol" name="protocol" required><br>
-
-        <label for="length">Length:</label>
-        <input type="number" id="length" name="length" required><br>
-
-        <button type="submit">Predict</button>
+    <form action = "{{ url_for('predict') }}" method="POST">
+        <input type="text" name = "Source" placeholder="Enter source"><br>
+        <input type="text" name = "Destination" placeholder="Enter destination"><br>
+        <input type="text" name = "Protocol" placeholder="Enter protocol"><br>
+        <input type="text" name = "Length" placeholder="Enter length"><br>
+        <input type="submit" value = "Submit">
     </form>
+    <h2>Result:</h2>
+    <p>{{ result }}</p>
 
     <div id="prediction-result"></div>
 

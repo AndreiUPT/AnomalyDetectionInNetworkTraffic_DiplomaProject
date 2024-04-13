@@ -15,12 +15,13 @@ class RandomForest:
         self.selected_columns = ['No', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info', 'cat']
         self.routerDF = self.routerDF[self.selected_columns]
         self.label_encoders = {}
+        self.random_forest = None
     def print_routerDF(self):  # Method to display dataframe
         print(self.routerDF)
 
     def training(self):  # Methos for training, testing and evaluating the Random Forest
         # encoding
-        for column in ['Source', 'Destination', 'Protocol', 'cat']:
+        for column in ['Source', 'Destination', 'Protocol', 'Length', 'cat']:
             encoder = LabelEncoder()
             self.routerDF[column] = encoder.fit_transform(self.routerDF[column])
             self.label_encoders[column] = encoder
@@ -39,31 +40,22 @@ class RandomForest:
         y = self.routerDF['cat']
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-        random_forest = RandomForestClassifier(n_estimators=100, random_state=42)
-        random_forest.fit(X_train, y_train)
+        self.random_forest = RandomForestClassifier(n_estimators=100, random_state=42)
+        self.random_forest.fit(X_train, y_train)
 
         # Predictions & evaluation
-        y_pred = random_forest.predict(X_test)
+        y_pred = self.random_forest.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred) * 100
         conf_matrix = confusion_matrix(y_test, y_pred)
         class_report = classification_report(y_test, y_pred)
 
-        # print("Classification Report:\n", class_report)
-        # print("Accuracy:", accuracy * 100, "%")
-        # print("\nConfusion Matrix:\n", conf_matrix)
+        print("Classification Report:\n", class_report)
+        print("Accuracy:", accuracy, "%")
+        print("\nConfusion Matrix:\n", conf_matrix)
 
-        return accuracy, conf_matrix, class_report
+        #return accuracy, conf_matrix, class_report
 
-    """def preprocess_packet(self, packet_info):  # Method for packet preprocessing
-        # packet info to a DataFrame
-        packet_df = pd.DataFrame(packet_info, index=[0])
 
-        # label encoding
-        for column, encoder in self.label_encoders.items():
-            if column in packet_df.columns:
-                packet_df[column] = encoder.transform(packet_df[column])
-
-        return packet_df
 
     def predict_packet_category(self, packet_info):   # Method for predicting
         # preprocessing
@@ -76,4 +68,5 @@ class RandomForest:
         if prediction[0] == 1:
             return "Normal"
         else:
-            return "Anomaly" """
+            return "Anomaly"
+
