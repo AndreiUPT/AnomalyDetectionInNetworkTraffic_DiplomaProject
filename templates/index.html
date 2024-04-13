@@ -10,17 +10,29 @@
 </head>
 <body>
     <h1>Anomaly Detection</h1>
-    <form action = "{{ url_for('predict') }}" method="POST">
-        <input type="text" name = "Source" placeholder="Enter source"><br>
-        <input type="text" name = "Destination" placeholder="Enter destination"><br>
-        <input type="text" name = "Protocol" placeholder="Enter protocol"><br>
-        <input type="text" name = "Length" placeholder="Enter length"><br>
-        <input type="submit" value = "Submit">
+    <form action="{{ url_for('predict') }}" method="POST" class="prediction-form">
+        <div class="form-group">
+            <label for="source">Source:</label>
+            <input type="text" name="Source" id="source" placeholder="Enter source" required>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <input type="text" name="Destination" id="destination" placeholder="Enter destination" required>
+        </div>
+        <div class="form-group">
+            <label for="protocol">Protocol:</label>
+            <input type="text" name="Protocol" id="protocol" placeholder="Enter protocol" required>
+        </div>
+        <div class="form-group">
+            <label for="length">Length:</label>
+            <input type="number" name="Length" id="length" placeholder="Enter length" required>
+        </div>
+        <button type="submit">Submit</button>
     </form>
-    <h2>Result:</h2>
-    <p>{{ result }}</p>
-
-    <div id="prediction-result"></div>
+    <div class="result">
+        <h2>Result:</h2>
+        <p>{{ result }}</p>
+    </div>
 
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
