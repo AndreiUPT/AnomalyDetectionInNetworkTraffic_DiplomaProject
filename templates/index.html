@@ -10,6 +10,7 @@
 </head>
 <body>
     <h1>Anomaly Detection</h1>
+    <p class="message">Please provide the packet details below:</p>
     <form action="{{ url_for('predict') }}" method="POST" class="prediction-form">
         <div class="form-group">
             <label for="source">Source:</label>
@@ -27,10 +28,10 @@
             <label for="length">Length:</label>
             <input type="number" name="Length" id="length" placeholder="Enter length" required>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Predict</button>
     </form>
     <div class="result">
-        <h2>Result:</h2>
+        <h2>Packet Categorization:</h2>
         <p>{{ result }}</p>
     </div>
 
