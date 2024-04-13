@@ -1,9 +1,23 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
     color: #fff;
     margin: 0;
     padding: 0;
+    background-color: #1a1a1a;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        radial-gradient(circle, #fff 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+
+    background-position:
+        20% 10%,
+        40% 30%,
+        60% 50%,
+        80% 70%,
+        auto;
 }
 
 .container {
