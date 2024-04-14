@@ -31,9 +31,14 @@ def predict():
     # Make prediction
     packet_info = {'Source': source, 'Destination': destination, 'Protocol': protocol, 'Length': length, }
 
-    prediction = random_forest_instance.predict_packet_category(packet_info)
 
-    return render_template("index.html", result=prediction)
+    try:
+        prediction = random_forest_instance.predict_packet_category(packet_info)
+
+        return render_template("index.html", result=prediction)
+    except ValueError as e:
+        message = "Source, Destination or Protocol unfound. Please use the tool https://www.virustotal.com/gui/home/upload for in-depth IP investigation."
+        return render_template("index.html", result=message)
 
 
 @flask_application.route("/favicon.ico")
