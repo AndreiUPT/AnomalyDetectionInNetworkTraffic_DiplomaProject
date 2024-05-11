@@ -49,11 +49,10 @@ class RandomForest:
         conf_matrix = confusion_matrix(y_test, y_pred)
         class_report = classification_report(y_test, y_pred)
 
-        print("Classification Report:\n", class_report)
-        print("Accuracy:", accuracy, "%")
-        print("\nConfusion Matrix:\n", conf_matrix)
+        #print("Classification Report:\n", class_report)
+        #print("Accuracy:", accuracy, "%")
+        #print("\nConfusion Matrix:\n", conf_matrix)
 
-        #return accuracy, conf_matrix, class_report
 
     def preprocess_packet(self, packet_info):  # Method for packet preprocessing
         # packet info to a DataFrame
