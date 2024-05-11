@@ -19,7 +19,7 @@ class RandomForest:
     def print_routerDF(self):  # Method to display dataframe
         print(self.routerDF)
 
-    def training(self):  # Methos for training, testing and evaluating the Random Forest
+    def training(self):  # Method for training, testing and evaluating the Random Forest
         # encoding
         for column in ['Source', 'Destination', 'Protocol', 'Length', 'cat']:
             encoder = LabelEncoder()

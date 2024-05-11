@@ -8,19 +8,18 @@ flask_application = Flask(__name__)
 random_forest_instance = RandomForest()
 random_forest_instance.training()
 
-with open('random_forest_model.pkl', 'wb') as f:
+with open('random_forest_model.pkl', 'wb') as f:   # Saving the trained model into a pickle file
     pickle.dump(random_forest_instance, f)
 
 
 @flask_application.route("/")
 def index():
-    # Render an HTML template
+    # Render HTML template
     return render_template("index.html")
 
 
 @flask_application.route("/predict", methods=["POST", "GET"])
 def predict():
-    # if request.method == "POST":
     source = request.form.get('Source')
     destination = request.form.get('Destination')
     protocol = request.form.get('Protocol')
@@ -28,9 +27,8 @@ def predict():
 
     # model = pickle.load(open("random_forest_model.pkl", "rb"))
 
-    # Make prediction
+    # Predictions:
     packet_info = {'Source': source, 'Destination': destination, 'Protocol': protocol, 'Length': length, }
-
 
     try:
         prediction = random_forest_instance.predict_packet_category(packet_info)
@@ -41,7 +39,7 @@ def predict():
         return render_template("index.html", result=message)
 
 
-@flask_application.route("/favicon.ico")
+@flask_application.route("/favicon.ico")  # Handling 404 error
 def favicon():
     return "", 404
 
