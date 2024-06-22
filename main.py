@@ -35,7 +35,7 @@ def predict():
 
         return render_template("index.html", result=prediction)
     except ValueError as e:
-        message = "Source, Destination or Protocol unfound. Please use the tool https://www.virustotal.com/gui/home/upload for in-depth IP investigation."
+        message = "Source, Destination or Protocol are not found. Please use the tool https://www.virustotal.com/gui/home/upload for in-depth IP investigation."
         return render_template("index.html", result=message)
 
 
